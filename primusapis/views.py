@@ -18,6 +18,7 @@ from .fcm import send_message
 
 from random import randint
 import datetime
+import ast
 
 
 class Register(APIView):
@@ -33,8 +34,20 @@ class Register(APIView):
         response = {}
         u = User(username=data.get('mobile'))
         u.set_password(data.get('password'))
-        u.save()
         response['U_ID'] = u.id
+        u.save()
+
+
+        lovedones = data.get('lovedones')
+        lovedones = ast.literal_eval(lovedones)
+        u = User(username=data.get('mobile'))
+        for lovedone in lovedones:
+            # user = User.objects.filter(username=lovedone)
+            user = User(username=lovedone)
+            # print(user)
+            u.following.add(LovedOne(following=user))        
+        u.save()
+
 
 
         p = Client(
@@ -79,19 +92,14 @@ class Location(APIView):
                 )
 
 
-        u = User(username=data.get('mobile'))
-        print(u)
-        l = Location(
-            latitude = data.get('log'),
-            longitude = data.get('lat'),
-            location_of = u,
-            )
-        print(l)
-        l.save()
-        now = datetime.datetime.now()
+        l = Client.objects.filter(mobile=data.get('mobile'))
+        l[0].lat = data.get('lat')
+        l[0].log = data.get('log')
+        l.update()
+        now_ = datetime.datetime.now()
 
         response = {
-            notification_of_location : now
+            'notification_of_location' : now_
         }
 
         return JsonResponse(
@@ -111,13 +119,11 @@ class Marked_as_safe(APIView):
                 status=status.HTTP_400_BAD_REQUEST
                 )
 
-
-        u = User(username = data.get('mobile'))
-        print(u)
-        client = Client.objects.get(user=u)
+        print(str(data.get('mobile')))
+        u = User.objects.filter(username = data.get('mobile'))
+        # print(u[0]['User'])
+        client = Client.objects.filter(mobile=data.get('mobile'))
         print(client)
-        c = client(
-            status='S'
-            )
-
-        c.save()
+        client[0].status = 'S'
+        client.update()
+        return JsonResponse({'done':'successfully'})
