@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block extend_body %}
+
+
+<div class="ui link cards">
+  {% for graph in Graphs %}
+  <div class="card">
+    <div class="image">
+      <img src="/images/avatar2/large/matthew.png">
+    </div>
+    <div class="content">
+      <div class="header"><a href="{% url 'graph_type' graph.id %}">{{graph.Graph_Type}}</a></div>
+      <div class="meta">
+        <span>Friends</span>
+      </div>
+      <div class="description">
+        {{graph.Graph_description}}
+      </div>
+    </div>
+    <div class="extra content">
+      <span class="right floated">
+        Joined in 2013
+      </span>
+      <span>
+        <i class="user icon"></i>
+        75 Friends
+      </span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+
+{% endblock %}

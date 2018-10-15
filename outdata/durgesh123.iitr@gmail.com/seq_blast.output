@@ -1,0 +1,9 @@
+# BLASTP 2.6.0+
+# Query: Asahsfg gafga [asdfgsdfgsd]
+# Database: /home/compbio/durgesh_primus/tools/blastp_data/db/db/pdbaa.00
+# Fields: subject acc., % query coverage per subject, % identity, % positives, evalue
+# 3 hits found
+4ZOX_A	79	24.615	36.92	0.98
+5AMS_A	79	24.615	36.92	1.1
+4ZOV_A	79	24.615	36.92	1.1
+# BLAST processed 1 queries

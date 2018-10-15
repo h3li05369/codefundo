@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block extend_body %}
+
+<center>
+  <h1>
+    {{graph.Graph_Type}}
+  </h1>
+  <h3>{{graph.Graph_description}}</h3>
+</center>
+<form method="POST" action="{% url 'visualise' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div style="display:grid;grid-template-columns:50vw 50vw">
+      <div>
+        <center>
+          <h2>
+            Upload Data
+          </h2>
+          <input type="text" name="name" ><br><br>
+
+          <label>Data Points (Nodes)</label><br>
+          <hr width=50%>
+          <input type="file" name="nodes" accept=""><br><br>
+          <label>Relations (Edges)</label><br>
+          <hr width=50%>
+          <input type="file" name="pic" accept="">
+
+        </center>
+      </div>
+
+      <div>
+        <center>
+          <h2>
+            Optional Parameters
+          </h2>
+        </center>
+      </div>
+  </div>
+            <center>
+              <input type="submit">
+            </center>
+</form>
+
+{% endblock %}
