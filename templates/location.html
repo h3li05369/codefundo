@@ -1,16 +1,86 @@
-
-
 {% extends 'base.html' %}
+ 
 
-{% block head_extra %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/location.css' %}"/>
-<script href="{% static 'js/location.js' %}"/>
-{% endblock %}
+
 
 
 
 {% block extend_body %}
 
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+        <div id="myDiv" style="height:90vh;width:100vw"></div>
+        <script>
+
+        	var log = new Array();
+        	var lat = new Array();
+        	var text = new Array();
+        	var color = new Array();
+        	var textposition = new Array();
+
+        	{% for i in clients %};
+        		log.push({{i.log}});
+        		lat.push({{i.lat}});
+        		text.push({{i.mobile}});
+        		color.push('#bebada');
+        		textposition.push('top right');
+
+
+    		{% endfor %};
+    		console.log(text);
+
+
+
+
+
+ var data = [{
+        type: 'scattergeo',
+        mode: 'markers+text',
+        text: text,
+        lon: log,
+        lat: lat,
+        marker: {
+            size: 7,
+            color: color,
+            line: {
+                width: 1
+            }
+        },
+        name: 'Canadian cities',
+        textposition: textposition,
+    }];
+
+    var layout = {
+        title: 'World cities',
+        font: {
+            family: 'Droid Serif, serif',
+            size: 6
+        },
+        titlefont: {
+            size: 16
+        },
+        geo: {
+            scope: 'global',
+            resolution: 50,
+            lonaxis: {
+                'range': [65,95]
+            },
+            lataxis: {
+                'range': [5, 40]
+            },
+            showrivers: true,
+            rivercolor: '#fff',
+            showlakes: true,
+            lakecolor: '#fff',
+            showland: true,
+            landcolor: '#EAEAAE',
+            countrycolor: '#d3d3d3',
+            countrywidth: 1.5,
+            subunitcolor: '#d3d3d3'
+        }
+    };
+
+    Plotly.newPlot('myDiv', data, layout);
+        </script>
 
 {% endblock %}

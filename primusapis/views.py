@@ -39,14 +39,10 @@ class Register(APIView):
 
 
         lovedones = data.get('lovedones')
-        lovedones = ast.literal_eval(lovedones)
-        u = User(username=data.get('mobile'))
-        for lovedone in lovedones:
-            # user = User.objects.filter(username=lovedone)
-            user = User(username=lovedone)
-            # print(user)
-            u.following.add(LovedOne(following=user))        
-        u.save()
+        # lovedones = ast.literal_eval(lovedones)
+
+
+
 
 
 
@@ -57,7 +53,9 @@ class Register(APIView):
             address=data.get('address'),
             gender=data.get('gender'),
             user=u,
+            following = lovedones,
             )
+
         p.save()
         response['ID'] = p.id
         # t = Token(user=u)
@@ -127,3 +125,28 @@ class Marked_as_safe(APIView):
         client[0].status = 'S'
         client.update()
         return JsonResponse({'done':'successfully'})
+
+
+
+class MarkedAsSafeNotification(APIView):
+    def post(self,request,format=None):
+        try:
+            data = request.data
+            print(data)
+
+        except ParseError as error:
+            return Response(
+                'Invalid JSON - {0}'.format(error.detail),
+                status=status.HTTP_400_BAD_REQUEST
+                )
+
+
+        client = Client.objects.filter(mobile=data.get('mobile'))
+
+        following = client[0].following
+        following = ast.literal_eval(following)
+
+        
+
+
+        return JsonResponse({'following':following})

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from .forms import LogIn
 from .models import Graphs
+from primusapis.models import *
 
 import os
 import json
@@ -57,3 +58,25 @@ def Visualise(request):
             context= {
                 'printthis':"hello beautiful"}
             return render(request,'admin_panel.html',context)
+
+
+def Analysis(request):
+    clients = Client.objects.all()
+    context = {
+    'clients':clients
+    }
+    return render(request,'analysis.html',context)
+
+
+def Location(request):
+    clients = Client.objects.all()
+    lat = []
+    log = []
+
+    context = {
+        'clients':clients
+    }
+
+    return render(request, 'location.html',context)
+
+

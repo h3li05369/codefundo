@@ -20,7 +20,6 @@ class Device(models.Model):
         return self.device_id
 
 
-
 class Client(models.Model):
     name = models.CharField(max_length=100, default="Durgesh")
     address = models.TextField(max_length=300, blank=True)
@@ -33,18 +32,15 @@ class Client(models.Model):
     device = models.OneToOneField(Device, null=True, related_name='client' , on_delete=models.CASCADE)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True)
+    following = models.TextField(max_length=1000,default='[9760839890]',null=True)
 
     def __str__(self):
         return self.name
 
 
-    
-class LovedOne(models.Model):
-    follower = models.ForeignKey(User, related_name='following',on_delete=models.CASCADE)
-    following = models.ForeignKey(User, related_name='followers',on_delete=models.CASCADE)
 
-    class Meta:
-        unique_together = ('follower', 'following')
+
+
 
 
         
